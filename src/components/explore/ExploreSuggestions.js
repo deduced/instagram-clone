@@ -13,7 +13,7 @@ function ExploreSuggestions() {
           className={classes.typography}
           color="textSecondary"
           component="h2"
-          variant="subtitle"
+          variant="subtitle1"
         >
           Discover People
         </Typography>

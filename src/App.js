@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import FeedPage from "./pages/feed";
 import ExplorePage from "./pages/explore";
 import ProfilePage from "./pages/profile";
@@ -8,11 +8,26 @@ import PostPage from "./pages/post";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 import NotFoundPage from "./pages/not-found";
+import PostModal from "./components/post/PostModal";
 
 function App() {
+  const history = useHistory();
+  const modal = history.location.state?.modal;
+  //Track previous location synchronously since useState is asyncronous
+  const prevLocation = useRef(history.location);
+  console.log(history);
+
+  useEffect(() => {
+    if (history.action === "PUSH" && !modal) {
+      prevLocation.current = history.location;
+    }
+  }, [history.location, modal, history.action]);
+
+  const isModalOpen = modal && prevLocation.current !== history.location;
+
   return (
-    <Router>
-      <Switch>
+    <>
+      <Switch location={isModalOpen ? prevLocation.current : history.location}>
         <Route exact path="/" component={FeedPage} />
         <Route path="/explore" component={ExplorePage} />
         <Route exact path="/:username" component={ProfilePage} />
@@ -22,7 +37,8 @@ function App() {
         <Route path="/accounts/emailsignup" component={SignupPage} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
-    </Router>
+      {isModalOpen && <Route exact path="/p/:postId" component={PostModal} />}
+    </>
   );
 }
 
