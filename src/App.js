@@ -15,7 +15,6 @@ function App() {
   const modal = history.location.state?.modal;
   //Track previous location synchronously since useState is asyncronous
   const prevLocation = useRef(history.location);
-  console.log(history);
 
   useEffect(() => {
     if (history.action === "PUSH" && !modal) {
