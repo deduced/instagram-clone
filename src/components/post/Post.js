@@ -18,7 +18,7 @@ import {
   Divider,
   TextField,
 } from "@material-ui/core";
-import FollowSuggestions from "../shared/FollowSuggestions";
+
 import OptionsDialog from "../shared/OptionsDialog";
 import { defaultPost } from "../../data";
 
